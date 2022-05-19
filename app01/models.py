@@ -14,15 +14,16 @@ class Course(models.Model):
     name = models.CharField(max_length=128, unique=True)
     course_img = models.CharField(max_length=255)
     # 不会在数据库生成列，只用于帮助你进行查询
-    policy_list = GenericRelation("PricePolicy")
+    policy_list = GenericRelation("PricePolicy")#直接关联到PricePolicy
 from django.contrib.contenttypes.models import ContentType
+
 class PricePolicy(models.Model):
     """价格与有课程效期表"""
     content_type = models.ForeignKey(ContentType,on_delete=models.CASCADE)  # 关联course or degree_course
     object_id = models.PositiveIntegerField()#表示我们所关联课程的id值，因为不确定因素的限制，只能为正整数数字
 
     #不会在数据库生成列，只用于帮助你进行添加和查询
-    content_object = GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey('content_type', 'object_id')#直接关联到
 
 
     valid_period_choices = (
